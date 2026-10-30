@@ -1,0 +1,51 @@
+# Local secrets and machine state
+.env
+.env.*
+!.env.example
+.DS_Store
+.AppleDouble
+
+# Dependencies and generated build output
+node_modules/
+.build/
+.swiftpm/
+.module-cache/
+*.pcm
+DerivedData/
+bin/
+obj/
+publish/
+dist/
+release/
+**/backups/
+
+# Binaries and local logs
+*.log
+*.zip
+*.dylib
+*.dll
+*.exe
+*.app/
+*.dSYM/
+*.icns
+*.xcarchive/
+
+# Screenshots from local debugging sessions
+/截屏*.png
+
+# Rendered animation previews (generated from the source sprites)
+/DynaPet/preview-v2/
+/DynaPet/preview-v3/
+
+# Reviewed public source exports are distributed separately, without private history
+/public-release/
+
+# Portable, generated test theme is an intentional shared fixture
+!/TestThemes/MinimalGif.zip
+__pycache__/
+*.pyc
+
+# Maintainer-only release preparation materials
+/OPEN_SOURCE_RELEASE.md
+/发布材料/
+/tools/prepare_public_release.py
