@@ -1,0 +1,4 @@
+module CSystem {
+    header "CSystem.h"
+    export *
+}

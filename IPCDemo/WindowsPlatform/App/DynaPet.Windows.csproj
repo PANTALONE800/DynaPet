@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>DynaPet</AssemblyName>
+    <Version>3.4.0</Version>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>DynaPet.ico</ApplicationIcon>
+    <PublishTrimmed>false</PublishTrimmed>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Core/DynaPet.Core.csproj" />
+    <EmbeddedResource Include="../../../DemoTheme/*.png" LogicalName="DynaPet.DemoTheme.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="../../../DemoTheme/manifest.json" LogicalName="DynaPet.DemoTheme.manifest.json" />
+    <EmbeddedResource Include="../../../DemoTheme/NOTICE.md" LogicalName="DynaPet.DemoTheme.NOTICE.md" />
+    <EmbeddedResource Include="DynaPet.ico" LogicalName="DynaPet.Icon" />
+    <Content Include="../使用说明.txt" Link="使用说明.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

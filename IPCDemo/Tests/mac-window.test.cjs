@@ -1,0 +1,38 @@
+'use strict';
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const {setTimeout:delay} = require('node:timers/promises');
+const {CoreProcess} = require('../MacPlatform/Tools/IPCProbe/core-process.cjs');
+const root = path.resolve(__dirname,'..');
+const binary = path.join(root,'dist',process.arch,'DynaPet.app/Contents/MacOS/DynaPet');
+test('IPC request changes a real native pet before successful response', {skip:process.platform!=='darwin'}, async t => {
+  const folder=path.join(root,'.build/mac-verification');fs.mkdirSync(folder,{recursive:true});
+  const report=path.join(folder,'native-ipc.json');fs.rmSync(report,{force:true});
+  const core=new CoreProcess(binary,{env:{DYNAPET_MAC_REPORT:report}});t.after(()=>core.stop());
+  const events=[];core.on('event',message=>events.push(message));
+  const ready=await core.start();assert.equal(ready.body.data.nativeWindowVisible,true);
+  assert(events.some(m=>m.body.name==='pet.state_changed'&&m.body.data.reason==='startup'));
+  assert(events.some(m=>m.body.name==='play_animation'&&m.body.data.name==='welcome'));
+  assert.deepEqual(await core.request('pet.touch'),{accepted:true});
+  await delay(350);
+  assert.deepEqual(await core.request('pet.resize',{scale:1.25}),{scale:1.25});
+  await assert.rejects(core.request('pet.resize',{scale:4}),/INVALID_PARAMS/);
+  await core.stop();assert.equal((await core.closed).code,0);
+  const window=JSON.parse(fs.readFileSync(report,'utf8'));
+  assert.equal(window.visible,true);assert.equal(window.borderless,true);assert.equal(window.transparent,true);
+  assert.equal(window.level,window.floatingLevel);assert.equal(window.width,300);assert.equal(window.height,325);
+  assert.equal(window.animation,'happy');assert(window.animationStarts>=2);assert(window.frameChanges>0);
+  assert.equal(window.appliedOnMainThread,true);
+  assert(events.some(m=>m.body.name==='pet.state_changed'&&m.body.data.reason==='touch'&&m.body.data.mood==='happy'));
+  assert(events.some(m=>m.body.name==='play_animation'&&m.body.data.name==='happy'));
+  assert(events.some(m=>m.body.name==='pet.resized'&&m.body.data.scale===1.25));
+  assert.deepEqual(events.map(m=>m.body.seq),events.map((_,index)=>index+1));
+  fs.writeFileSync(path.join(folder,'native-business-events.json'),JSON.stringify(events,null,2));
+});
+test('missing animation assets fail startup and leave no child running', {skip:process.platform!=='darwin'}, async t => {
+  const core=new CoreProcess(binary,{env:{DYNAPET_MAC_ASSETS:'/nonexistent/dynapet-test-assets'}});t.after(()=>core.stop());
+  await assert.rejects(core.start(),/CORE_EXITED/);
+  assert.equal(core.exited,true);
+});

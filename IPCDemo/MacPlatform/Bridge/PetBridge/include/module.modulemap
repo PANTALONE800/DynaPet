@@ -1,0 +1,4 @@
+module PetBridge [system] {
+    header "pet_bridge.h"
+    export *
+}
