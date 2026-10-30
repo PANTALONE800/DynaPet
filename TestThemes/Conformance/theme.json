@@ -1,0 +1,11 @@
+{
+  "format": "dynapet-theme",
+  "version": 1,
+  "name": "Distinct States",
+  "states": {
+    "idle": "once.gif",
+    "touch": "finite.gif",
+    "sleep": "disposal.gif",
+    "focus": "zero-delay.gif"
+  }
+}

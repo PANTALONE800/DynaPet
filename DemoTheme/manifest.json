@@ -1,0 +1,19 @@
+{
+  "id": "public-geometric-demo",
+  "name": "Original Moving Dot",
+  "format": "three-frame-strip",
+  "frameCount": 3,
+  "states": {
+    "welcome": "welcome.png",
+    "idle": "idle.png",
+    "focus": "focus.png",
+    "happy": "happy.png",
+    "hot": "hot.png",
+    "dizzy": "dizzy.png",
+    "puzzled": "puzzled.png",
+    "sleepy": "sleepy.png",
+    "low": "low.png",
+    "shy": "shy.png",
+    "message": "message.png"
+  }
+}

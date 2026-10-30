@@ -1,0 +1,10 @@
+{
+  "format": "dynapet-theme",
+  "version": 1,
+  "name": "Moving Dot (8 frames)",
+  "states": {
+    "idle": "demo.gif",
+    "touch": "demo.gif",
+    "sleep": "demo.gif"
+  }
+}
